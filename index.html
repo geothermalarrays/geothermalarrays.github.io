@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GeoArrays — MIT Julia Lab</title>
+  <meta name="description" content="Scaling geothermal energy through networks of standard wells. A research group at the MIT Julia Lab." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">Geo<span>Arrays</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="people.html">People</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="rfcs.html">GeoRFCs</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="hero">
+  <a class="affil-badge" href="https://julia.mit.edu/" target="_blank" rel="noopener">
+    MIT Julia Lab · CSAIL
+  </a>
+  <p class="hero-label">Geothermal Energy Research</p>
+  <h1>Scaling geothermal energy<br>through networked well arrays</h1>
+  <p class="hero-desc">
+    We are a research group at the MIT Julia Lab working to make geothermal
+    energy firm, cheap, and universally deployable — by treating wells as
+    components in large, standardized arrays rather than one-off megaprojects.
+  </p>
+  <div class="hero-links">
+    <a class="btn btn-primary" href="publications.html">Read our work</a>
+    <a class="btn btn-outline" href="rfcs.html">GeoRFCs</a>
+    <a class="btn btn-outline" href="people.html">Our team</a>
+  </div>
+</div>
+
+<hr class="section-divider" />
+
+<div class="content-section">
+  <p class="section-label">The case for geothermal</p>
+  <h2>Firm, inexhaustible, and available almost everywhere</h2>
+  <p>
+    Wind and solar are abundant but intermittent. Geothermal energy is different:
+    it draws on the continuous heat of the Earth, delivering capacity factors
+    above 90% — far exceeding the 15–45% typical of wind and solar — without
+    fuel, combustion, or weather dependence.
+  </p>
+  <p>
+    Geothermal energy is also safe, produces no emissions during operation, and
+    the subsurface heat resource is practically inexhaustible on human timescales.
+    The remaining challenge is cost and scale.
+  </p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-value">&gt;90%</div>
+      <div class="stat-label">Capacity factor for geothermal vs. 15–45% for wind/solar</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">&lt;1¢</div>
+      <div class="stat-label">Target LCOE per kWh — below solar, wind, coal, and nuclear</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">~100%</div>
+      <div class="stat-label">System-level capacity factor achievable through array redundancy</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">10,000</div>
+      <div class="stat-label">Arrays of ~100 wells each needed to solve energy at global scale</div>
+    </div>
+  </div>
+</div>
+
+<div class="content-section">
+  <p class="section-label">Our approach</p>
+  <h2>Geothermal arrays: wells as components, not megaprojects</h2>
+  <p>
+    The Internet scaled by networking small, standard, competitively sourced
+    computers — not by building ever-larger mainframes. We apply the same logic
+    to geothermal energy. Instead of pursuing ever-deeper, ever-more-expensive
+    single wells, we propose <strong>geothermal arrays</strong>: networks of
+    smaller, standardized, closed-loop deep borehole heat exchangers (DBHEs)
+    linked by a micro-grid and operated autonomously.
+  </p>
+  <p>
+    Each well in the array is a self-contained unit with its own circulation
+    pump, heat exchanger, organic Rankine cycle (ORC) converter, and micro-grid
+    connection. Standard mechanical and electrical interfaces allow competing
+    suppliers to manufacture subsystems and robot vans to install and maintain
+    them autonomously — driving down cost through learning curves, competition,
+    and shared infrastructure.
+  </p>
+  <p>
+    Array-level redundancy pushes the system capacity factor toward 100%.
+    Shared surface power conversion and cooling infrastructure eliminates the
+    per-well cost penalty of bespoke power plants. Our modeling — combining
+    GPU-accelerated 3D simulation with large language model-assisted design
+    exploration — suggests a pathway to levelized costs of electricity (LCOE)
+    below 1¢/kWh.
+  </p>
+</div>
+
+<div class="content-section">
+  <p class="section-label">Computational methods</p>
+  <h2>High-performance simulation at the Julia Lab</h2>
+  <p>
+    Our group sits at the intersection of geothermal engineering and
+    high-performance scientific computing. We develop GPU-accelerated,
+    full three-dimensional models of deep borehole heat exchanger arrays,
+    enabling the simulation of multi-well interactions at resolutions
+    previously impractical.
+  </p>
+  <p>
+    These tools — built in the <a href="https://julialang.org/" target="_blank" rel="noopener">Julia programming language</a> and
+    deployed on modern GPU hardware — allow us to explore array configurations,
+    thermal drawdown dynamics, drilling strategies, and economic scenarios at
+    the speed required for engineering iteration and policy analysis.
+  </p>
+  <p>
+    We also investigate the use of large language models as ideation and
+    design-assistance tools for geothermal engineering, combining LLM-generated
+    hypotheses with rigorous simulation and validation.
+  </p>
+</div>
+
+<hr class="section-divider" />
+
+<footer>
+  <p>GeoArrays Group &middot; <a href="https://julia.mit.edu/" target="_blank" rel="noopener">MIT Julia Lab</a> &middot;
+  Computer Science &amp; Artificial Intelligence Laboratory &middot; MIT</p>
+  <p style="margin-top:6px;">77 Massachusetts Ave., Cambridge, MA 02139</p>
+</footer>
+
+</body>
+</html>
