@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Publications — GeoArrays</title>
+  <title>Publications — GeothermalArrays</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
 <nav>
   <div class="nav-inner">
-    <a class="nav-brand" href="index.html">Geo<span>Arrays</span></a>
+    <a class="nav-brand" href="index.html"><img class="nav-logo" src="images/logo-dark.svg" alt="GeothermalArrays logo" />Geothermal<span>Arrays</span></a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="publications.html" class="active">Publications</a></li>
       <li><a href="rfcs.html">GeoRFCs</a></li>
-      <li><a href="https://github.com/geoarrays" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://github.com/geothermalarrays" target="_blank" rel="noopener">GitHub</a></li>
       <li><a href="people.html">People</a></li>
     </ul>
   </div>
@@ -25,7 +25,17 @@
 
   <div class="page-header">
     <h1>Publications</h1>
-    <p>Research publications from the GeoArrays group.</p>
+    <p>Research publications from the GeothermalArrays group.</p>
+  </div>
+
+  <div class="pub-copy-all-bar">
+    <button class="pub-btn" onclick="copyAllBib(event)">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="4" width="7" height="7" rx="1"/>
+        <path d="M1 8V1h7"/>
+      </svg>
+      Copy all BibTeX
+    </button>
   </div>
 
   <div class="pub-year-heading">2026</div>
@@ -36,12 +46,27 @@
         <a href="https://pangea.stanford.edu/ERE/db/GeoConf/papers/SGW/2026/Metcalfe.pdf" target="_blank" rel="noopener">
           Arrays of Networked Standard Geothermal Wells
         </a>
+        <span class="pub-featured">Featured</span>
       </div>
       <div class="pub-authors">
         Robert Metcalfe, Emmanuel Lujan, Collin Wittenstein, Andrew Inglis, Alan Edelman
       </div>
       <div class="pub-venue">
         PROCEEDINGS, 51st Workshop on Geothermal Reservoir Engineering, Stanford University, 2026
+      </div>
+      <div class="pub-actions">
+        <a class="pub-btn" href="https://pangea.stanford.edu/ERE/db/GeoConf/papers/SGW/2026/Metcalfe.pdf" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 1h5.5L10 3.5V11H2V1z"/><path d="M7 1v3h3"/>
+          </svg>
+          PDF
+        </a>
+        <button class="pub-btn" onclick="copyBib('metcalfe2026', event)">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="4" width="7" height="7" rx="1"/><path d="M1 8V1h7"/>
+          </svg>
+          BibTeX
+        </button>
       </div>
     </li>
 
@@ -56,6 +81,20 @@
       </div>
       <div class="pub-venue">
         PROCEEDINGS, 51st Workshop on Geothermal Reservoir Engineering, Stanford University, 2026
+      </div>
+      <div class="pub-actions">
+        <a class="pub-btn" href="https://pangea.stanford.edu/ERE/db/GeoConf/papers/SGW/2026/Wittenstein.pdf" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 1h5.5L10 3.5V11H2V1z"/><path d="M7 1v3h3"/>
+          </svg>
+          PDF
+        </a>
+        <button class="pub-btn" onclick="copyBib('wittenstein2026', event)">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="4" width="7" height="7" rx="1"/><path d="M1 8V1h7"/>
+          </svg>
+          BibTeX
+        </button>
       </div>
     </li>
 
@@ -76,17 +115,78 @@
       <div class="pub-venue">
         PROCEEDINGS, 50th Workshop on Geothermal Reservoir Engineering, Stanford University, 2025
       </div>
+      <div class="pub-actions">
+        <a class="pub-btn" href="https://pangea.stanford.edu/ERE/pdf/IGAstandard/SGW/2025/Ouko.pdf" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 1h5.5L10 3.5V11H2V1z"/><path d="M7 1v3h3"/>
+          </svg>
+          PDF
+        </a>
+        <button class="pub-btn" onclick="copyBib('ouko2025', event)">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="4" width="7" height="7" rx="1"/><path d="M1 8V1h7"/>
+          </svg>
+          BibTeX
+        </button>
+      </div>
     </li>
 
   </ul>
 
 </div>
 
+<script>
+const bibtex = {
+  metcalfe2026: `@inproceedings{metcalfe2026arrays,
+  title     = {Arrays of Networked Standard Geothermal Wells},
+  author    = {Metcalfe, Robert and Lujan, Emmanuel and Wittenstein, Collin and Inglis, Andrew and Edelman, Alan},
+  booktitle = {Proceedings, 51st Workshop on Geothermal Reservoir Engineering},
+  year      = {2026},
+  address   = {Stanford, CA}
+}`,
+  wittenstein2026: `@inproceedings{wittenstein2026gpu,
+  title     = {A Full Three-Dimensional {GPU}-Accelerated Model for Deep Borehole Heat Exchangers ({DBHEs}) Enabling Simulation of Well Arrays},
+  author    = {Wittenstein, Collin and Lujan, Emmanuel and Inglis, Andrew and Metcalfe, Robert and Edelman, Alan and Ranocha, Hendrik},
+  booktitle = {Proceedings, 51st Workshop on Geothermal Reservoir Engineering},
+  year      = {2026},
+  address   = {Stanford, CA}
+}`,
+  ouko2025: `@inproceedings{ouko2025decision,
+  title     = {Decision-Support and Modeling with Large Language Models for Geothermal Well Arrays},
+  author    = {Ouko, Edwin and Lujan, Emmanuel and Edelman, Alan and Metcalfe, Robert},
+  booktitle = {Proceedings, 50th Workshop on Geothermal Reservoir Engineering},
+  year      = {2025},
+  address   = {Stanford, CA}
+}`
+};
+
+function copyBib(key, e) {
+  const btn = e.currentTarget;
+  navigator.clipboard.writeText(bibtex[key]).then(() => {
+    const orig = btn.innerHTML;
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function copyAllBib(e) {
+  const all = Object.values(bibtex).join('\n\n');
+  const btn = e.currentTarget;
+  navigator.clipboard.writeText(all).then(() => {
+    const orig = btn.innerHTML;
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+
 <footer>
   <div class="footer-inner">
     <div>
-      <div class="footer-brand-name">Geo<span>Arrays</span></div>
-      <p class="footer-tagline">Scaling geothermal energy through networks of standard wells — MIT Julia Lab.</p>
+      <div class="footer-brand-name">Geothermal<span>Arrays</span></div>
+      <p class="footer-tagline">Scaling geothermal energy through networked well arrays.</p>
       <div class="footer-logos">
         <a href="https://julia.mit.edu/" target="_blank" rel="noopener">
           <img class="footer-logo-julialab" src="images/julia_lab_logo.svg" alt="MIT Julia Lab" />
@@ -106,6 +206,7 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="publications.html">Publications</a></li>
         <li><a href="rfcs.html">GeoRFCs</a></li>
+        <li><a href="https://github.com/geothermalarrays" target="_blank" rel="noopener">GitHub</a></li>
         <li><a href="people.html">People</a></li>
       </ul>
     </div>
@@ -122,7 +223,7 @@
     <div>
       <div class="footer-col-title">Resources</div>
       <ul class="footer-col-links">
-        <li><a href="https://github.com/geoarrays" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://github.com/geothermalarrays" target="_blank" rel="noopener">GitHub</a></li>
         <li><a href="https://julialang.org/" target="_blank" rel="noopener">Julia Language</a></li>
         <li><a href="https://pangea.stanford.edu/ERE/db/GeoConf/" target="_blank" rel="noopener">Stanford Geothermal</a></li>
         <li><a href="https://erlweb.mit.edu/" target="_blank" rel="noopener">MIT ERL</a></li>
@@ -133,7 +234,7 @@
 
   <div class="footer-bottom">
     <span>&copy; 2026 Massachusetts Institute of Technology</span>
-    <span>GeoArrays Group &middot; MIT Julia Lab, CSAIL</span>
+    <span>GeothermalArrays Group &middot; MIT Julia Lab, CSAIL</span>
   </div>
 </footer>
 

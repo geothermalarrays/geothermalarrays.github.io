@@ -1,0 +1,33 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="wg" x1="0" y1="50" x2="0" y2="395" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#2a3d50"/>
+      <stop offset="40%"  stop-color="#5a2410"/>
+      <stop offset="100%" stop-color="#e8612a"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="#0f1923"/>
+  <rect x="0" y="50"  width="400" height="58"  fill="#141c24" opacity="0.9"/>
+  <rect x="0" y="108" width="400" height="64"  fill="#171e28" opacity="0.9"/>
+  <rect x="0" y="172" width="400" height="66"  fill="#1a2028" opacity="0.9"/>
+  <rect x="0" y="238" width="400" height="68"  fill="#1d2228" opacity="0.9"/>
+  <rect x="0" y="306" width="400" height="94"  fill="#201820" opacity="0.9"/>
+  <g stroke="#2a3540" stroke-width="1" opacity="0.6">
+    <line x1="0" y1="108" x2="400" y2="108"/>
+    <line x1="0" y1="172" x2="400" y2="172"/>
+    <line x1="0" y1="238" x2="400" y2="238"/>
+    <line x1="0" y1="306" x2="400" y2="306"/>
+  </g>
+  <line x1="0" y1="50" x2="400" y2="50" stroke="#3a5060" stroke-width="2"/>
+  <rect x="49"  y="36" width="22" height="14" rx="2" fill="#3a5060"/>
+  <rect x="119" y="36" width="22" height="14" rx="2" fill="#3a5060"/>
+  <rect x="189" y="36" width="22" height="14" rx="2" fill="#3a5060"/>
+  <rect x="259" y="36" width="22" height="14" rx="2" fill="#3a5060"/>
+  <rect x="329" y="36" width="22" height="14" rx="2" fill="#3a5060"/>
+  <rect x="53"  y="50" width="14" height="345" fill="url(#wg)"/>
+  <rect x="123" y="50" width="14" height="345" fill="url(#wg)"/>
+  <rect x="193" y="50" width="14" height="345" fill="url(#wg)"/>
+  <rect x="263" y="50" width="14" height="345" fill="url(#wg)"/>
+  <rect x="333" y="50" width="14" height="345" fill="url(#wg)"/>
+  <ellipse cx="200" cy="396" rx="210" ry="18" fill="#e8612a" opacity="0.28"/>
+</svg>

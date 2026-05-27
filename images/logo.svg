@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="wg" x1="0" y1="50" x2="0" y2="395" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#162430"/>
+      <stop offset="38%"  stop-color="#5a2410"/>
+      <stop offset="100%" stop-color="#e8612a"/>
+    </linearGradient>
+    <linearGradient id="r5" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%"   stop-color="#8a6438"/>
+      <stop offset="100%" stop-color="#5a2410"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="white"/>
+  <rect x="0" y="0"   width="400" height="50"  fill="#f7f6f3"/>
+  <rect x="0" y="50"  width="400" height="58"  fill="#ede6d4"/>
+  <rect x="0" y="108" width="400" height="64"  fill="#ddd0b2"/>
+  <rect x="0" y="172" width="400" height="66"  fill="#c8b08c"/>
+  <rect x="0" y="238" width="400" height="68"  fill="#ae8c68"/>
+  <rect x="0" y="306" width="400" height="94"  fill="url(#r5)"/>
+  <g stroke="#b8a880" stroke-width="1" opacity="0.45">
+    <line x1="0" y1="108" x2="400" y2="108"/>
+    <line x1="0" y1="172" x2="400" y2="172"/>
+    <line x1="0" y1="238" x2="400" y2="238"/>
+    <line x1="0" y1="306" x2="400" y2="306"/>
+  </g>
+  <line x1="0" y1="50" x2="400" y2="50" stroke="#a09070" stroke-width="2"/>
+  <rect x="53"  y="50" width="14" height="345" fill="url(#wg)"/>
+  <rect x="123" y="50" width="14" height="345" fill="url(#wg)"/>
+  <rect x="193" y="50" width="14" height="345" fill="url(#wg)"/>
+  <rect x="263" y="50" width="14" height="345" fill="url(#wg)"/>
+  <rect x="333" y="50" width="14" height="345" fill="url(#wg)"/>
+  <rect x="49"  y="36" width="22" height="14" rx="2" fill="#0f1923"/>
+  <rect x="119" y="36" width="22" height="14" rx="2" fill="#0f1923"/>
+  <rect x="189" y="36" width="22" height="14" rx="2" fill="#0f1923"/>
+  <rect x="259" y="36" width="22" height="14" rx="2" fill="#0f1923"/>
+  <rect x="329" y="36" width="22" height="14" rx="2" fill="#0f1923"/>
+  <ellipse cx="200" cy="396" rx="210" ry="18" fill="#e8612a" opacity="0.20"/>
+  <ellipse cx="200" cy="393" rx="130" ry="11" fill="#f07030" opacity="0.16"/>
+</svg>

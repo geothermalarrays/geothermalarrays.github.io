@@ -48,6 +48,15 @@ nav {
   font-size: 15px;
   letter-spacing: 0.02em;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  margin-right: 10px;
 }
 
 .nav-brand span {
@@ -184,12 +193,14 @@ nav {
 
 .content-section p:last-child { margin-bottom: 0; }
 
-.content-section p a {
+.content-section p a,
+.page p a {
   color: var(--text-2);
   text-decoration: underline;
 }
 
-.content-section p a:hover { color: var(--text-1); }
+.content-section p a:hover,
+.page p a:hover { color: var(--text-1); }
 
 /* ── Stat cards ── */
 .stat-grid {
@@ -350,14 +361,11 @@ nav {
 .pub-item {
   padding: 18px 10px;
   margin: 0 -10px;
-  border-bottom: 1px solid var(--border);
   border-radius: 8px;
   transition: background 0.2s;
 }
 
 .pub-item:hover { background: var(--surface); }
-
-.pub-item:last-child { border-bottom: none; }
 
 .pub-title {
   font-size: 15px;
@@ -374,6 +382,21 @@ nav {
 
 .pub-title a:hover { color: var(--accent); text-decoration: underline; }
 
+.pub-featured {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  padding: 1px 6px;
+  margin-left: 8px;
+  vertical-align: middle;
+  line-height: 1.6;
+}
+
 .pub-authors {
   font-size: 13px;
   color: var(--text-2);
@@ -383,6 +406,53 @@ nav {
 .pub-venue {
   font-size: 13px;
   color: var(--text-3);
+}
+
+.pub-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.pub-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 9px;
+  text-decoration: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1.6;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.pub-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.pub-btn.copied {
+  color: #2a7a3a;
+  border-color: #2a7a3a;
+}
+
+.pub-btn svg {
+  flex-shrink: 0;
+}
+
+.pub-copy-all-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
 }
 
 /* ── RFC page ── */
@@ -473,6 +543,14 @@ footer {
   gap: 40px;
   padding-bottom: 40px;
   border-bottom: 1px solid var(--border);
+}
+
+.footer-brand-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  display: block;
+  margin-bottom: 14px;
 }
 
 .footer-brand-name {
