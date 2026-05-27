@@ -397,6 +397,21 @@ nav {
   line-height: 1.6;
 }
 
+.pub-type {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 6px;
+  margin-left: 8px;
+  vertical-align: middle;
+  line-height: 1.6;
+}
+
 .pub-authors {
   font-size: 13px;
   color: var(--text-2);
@@ -637,6 +652,16 @@ footer {
 
 .footer-bottom a { color: var(--text-3); text-decoration: underline; }
 .footer-bottom a:hover { color: var(--text-1); }
+
+.footer-ai-disclaimer {
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  color: #b0aba4;
+  font-style: italic;
+  margin-top: 10px;
+  order: 10;
+}
 
 @media (max-width: 700px) {
   .footer-inner { grid-template-columns: 1fr 1fr; }

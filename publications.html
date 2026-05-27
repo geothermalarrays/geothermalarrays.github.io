@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Publications — GeothermalArrays</title>
+  <title>Research — GeothermalArrays</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -13,7 +13,7 @@
     <a class="nav-brand" href="index.html"><img class="nav-logo" src="images/logo-dark.svg" alt="GeothermalArrays logo" />Geothermal<span>Arrays</span></a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
-      <li><a href="publications.html" class="active">Publications</a></li>
+      <li><a href="publications.html" class="active">Research</a></li>
       <li><a href="rfcs.html">GeoRFCs</a></li>
       <li><a href="https://github.com/geothermalarrays" target="_blank" rel="noopener">GitHub</a></li>
       <li><a href="people.html">People</a></li>
@@ -24,8 +24,8 @@
 <div class="page">
 
   <div class="page-header">
-    <h1>Publications</h1>
-    <p>Research publications from the GeothermalArrays group.</p>
+    <h1>Research</h1>
+    <p>Selected research output from the GeothermalArrays group.</p>
   </div>
 
   <div class="pub-copy-all-bar">
@@ -47,6 +47,7 @@
           Arrays of Networked Standard Geothermal Wells
         </a>
         <span class="pub-featured">Featured</span>
+        <span class="pub-type">Conference Paper</span>
       </div>
       <div class="pub-authors">
         Robert Metcalfe, Emmanuel Lujan, Collin Wittenstein, Andrew Inglis, Alan Edelman
@@ -75,6 +76,7 @@
         <a href="https://pangea.stanford.edu/ERE/db/GeoConf/papers/SGW/2026/Wittenstein.pdf" target="_blank" rel="noopener">
           A Full Three-Dimensional GPU-Accelerated Model for Deep Borehole Heat Exchangers (DBHEs) Enabling Simulation of Well Arrays
         </a>
+        <span class="pub-type">Conference Paper</span>
       </div>
       <div class="pub-authors">
         Collin Wittenstein, Emmanuel Lujan, Andrew Inglis, Robert Metcalfe, Alan Edelman, Hendrik Ranocha
@@ -98,6 +100,41 @@
       </div>
     </li>
 
+    <li class="pub-item">
+      <div class="pub-title">
+        <a href="https://github.com/cwittens/GeothermalWells.jl" target="_blank" rel="noopener">
+          GeothermalWells.jl: GPU-accelerated simulation of deep borehole heat exchanger (DBHE) arrays
+        </a>
+        <span class="pub-type">Software</span>
+      </div>
+      <div class="pub-authors">
+        Collin Wittenstein
+      </div>
+      <div class="pub-venue">
+        Zenodo, 2026 · doi:10.5281/zenodo.18405325
+      </div>
+      <div class="pub-actions">
+        <a class="pub-btn" href="https://github.com/cwittens/GeothermalWells.jl" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 1C3.24 1 1 3.24 1 6c0 2.21 1.43 4.08 3.41 4.74.25.05.34-.11.34-.24v-.85c-1.39.3-1.68-.67-1.68-.67-.23-.58-.56-.73-.56-.73-.46-.31.03-.31.03-.31.5.04.77.52.77.52.45.77 1.18.55 1.47.42.05-.33.18-.55.32-.68-1.11-.13-2.28-.56-2.28-2.48 0-.55.2-1 .52-1.35-.05-.13-.23-.64.05-1.33 0 0 .42-.13 1.38.52A4.8 4.8 0 0 1 6 3.8c.43 0 .86.06 1.26.17.96-.65 1.38-.52 1.38-.52.28.69.1 1.2.05 1.33.32.35.52.8.52 1.35 0 1.93-1.17 2.35-2.29 2.47.18.16.34.46.34.93v1.38c0 .13.09.29.34.24A5.004 5.004 0 0 0 11 6c0-2.76-2.24-5-5-5z"/>
+          </svg>
+          GitHub
+        </a>
+        <a class="pub-btn" href="https://doi.org/10.5281/zenodo.18405325" target="_blank" rel="noopener">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="6" cy="6" r="5"/><path d="M6 4v4M4 6h4"/>
+          </svg>
+          DOI
+        </a>
+        <button class="pub-btn" onclick="copyBib('wittenstein2026software', event)">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="4" width="7" height="7" rx="1"/><path d="M1 8V1h7"/>
+          </svg>
+          BibTeX
+        </button>
+      </div>
+    </li>
+
   </ul>
 
   <div class="pub-year-heading">2025</div>
@@ -108,6 +145,7 @@
         <a href="https://pangea.stanford.edu/ERE/pdf/IGAstandard/SGW/2025/Ouko.pdf" target="_blank" rel="noopener">
           Decision-Support and Modeling with Large Language Models for Geothermal Well Arrays
         </a>
+        <span class="pub-type">Conference Paper</span>
       </div>
       <div class="pub-authors">
         Edwin Ouko, Emmanuel Lujan, Alan Edelman, Robert Metcalfe
@@ -143,6 +181,13 @@ const bibtex = {
   booktitle = {Proceedings, 51st Workshop on Geothermal Reservoir Engineering},
   year      = {2026},
   address   = {Stanford, CA}
+}`,
+  wittenstein2026software: `@software{wittenstein2026geothermalwells,
+  title        = {{GeothermalWells.jl}: {GPU}-accelerated simulation of deep borehole heat exchanger ({DBHE}) arrays},
+  author       = {Wittenstein, Collin},
+  year         = {2026},
+  howpublished = {\\url{https://github.com/cwittens/GeothermalWells.jl}},
+  doi          = {10.5281/zenodo.18405325}
 }`,
   wittenstein2026: `@inproceedings{wittenstein2026gpu,
   title     = {A Full Three-Dimensional {GPU}-Accelerated Model for Deep Borehole Heat Exchangers ({DBHEs}) Enabling Simulation of Well Arrays},
@@ -235,6 +280,7 @@ function copyAllBib(e) {
   <div class="footer-bottom">
     <span>&copy; 2026 Massachusetts Institute of Technology</span>
     <span>GeothermalArrays Group &middot; MIT Julia Lab, CSAIL</span>
+    <span class="footer-ai-disclaimer">Some content on this site was drafted or refined with AI and may contain errors.</span>
   </div>
 </footer>
 
