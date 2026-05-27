@@ -184,6 +184,13 @@ nav {
 
 .content-section p:last-child { margin-bottom: 0; }
 
+.content-section p a {
+  color: var(--text-2);
+  text-decoration: underline;
+}
+
+.content-section p a:hover { color: var(--text-1); }
+
 /* ── Stat cards ── */
 .stat-grid {
   display: grid;
@@ -232,6 +239,15 @@ nav {
   font-size: 16px;
 }
 
+.page-header p a {
+  color: var(--text-2);
+  text-decoration: underline;
+}
+
+.page-header p a:hover {
+  color: var(--text-1);
+}
+
 /* ── People grid ── */
 .people-group {
   margin-bottom: 44px;
@@ -248,15 +264,26 @@ nav {
   border-bottom: 1px solid var(--border);
 }
 
-.person-card {
-  display: flex;
-  gap: 20px;
+.people-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
   padding: 18px 0;
-  border-bottom: 1px solid var(--border);
-  align-items: flex-start;
 }
 
-.person-card:last-child { border-bottom: none; }
+.person-card {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  border-radius: 8px;
+  padding: 10px;
+  margin: -10px;
+  transition: background 0.2s;
+}
+
+.person-card:hover {
+  background: var(--surface);
+}
 
 .person-info { flex: 1; }
 
@@ -292,6 +319,16 @@ nav {
   line-height: 1.6;
 }
 
+.person-photo {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+
 /* ── Publications list ── */
 .pub-year-heading {
   font-size: 11px;
@@ -311,9 +348,14 @@ nav {
 }
 
 .pub-item {
-  padding: 18px 0;
+  padding: 18px 10px;
+  margin: 0 -10px;
   border-bottom: 1px solid var(--border);
+  border-radius: 8px;
+  transition: background 0.2s;
 }
+
+.pub-item:hover { background: var(--surface); }
 
 .pub-item:last-child { border-bottom: none; }
 
@@ -418,14 +460,109 @@ nav {
 /* ── Footer ── */
 footer {
   border-top: 1px solid var(--border);
-  padding: 28px 24px;
-  text-align: center;
+  padding: 52px 24px 32px;
   font-size: 13px;
   color: var(--text-3);
 }
 
-footer a { color: var(--text-3); text-decoration: underline; }
-footer a:hover { color: var(--text-1); }
+.footer-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+}
+
+.footer-brand-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.footer-brand-name span { color: var(--accent); }
+
+.footer-tagline {
+  font-size: 13px;
+  color: var(--text-3);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  max-width: 220px;
+}
+
+.footer-logos {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.footer-logo-mit {
+  height: 32px;
+  width: auto;
+  display: block;
+}
+
+.footer-logo-julialab {
+  height: 32px;
+  width: auto;
+  display: block;
+}
+
+.footer-logo-csail {
+  height: 52px;
+  width: auto;
+  display: block;
+  opacity: 0.75;
+}
+
+.footer-col-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  margin-bottom: 14px;
+}
+
+.footer-col-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-col-links a {
+  color: var(--text-3);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.footer-col-links a:hover { color: var(--text-1); }
+
+.footer-col-links li { line-height: 1.4; }
+
+.footer-bottom {
+  max-width: var(--max-w);
+  margin: 24px auto 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-3);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footer-bottom a { color: var(--text-3); text-decoration: underline; }
+.footer-bottom a:hover { color: var(--text-1); }
+
+@media (max-width: 700px) {
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+}
 
 /* ── MIT badge ── */
 .affil-badge {
