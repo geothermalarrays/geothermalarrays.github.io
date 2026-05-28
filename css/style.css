@@ -82,6 +82,25 @@ nav {
   color: var(--nav-text);
 }
 
+/* ── MIT logo (nav right) ── */
+.nav-mit {
+  margin-left: auto;
+  margin-right: 14px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-mit-logo {
+  height: 16px;
+  width: auto;
+  opacity: 0.65;
+  filter: brightness(0) invert(1);
+  transition: opacity 0.15s;
+}
+
+.nav-mit:hover .nav-mit-logo { opacity: 1; }
+
 /* ── Hamburger ── */
 .nav-toggle {
   display: none;
@@ -89,7 +108,6 @@ nav {
   border: none;
   cursor: pointer;
   padding: 4px;
-  margin-left: auto;
   flex-direction: column;
   gap: 5px;
 }
@@ -108,7 +126,8 @@ nav {
 .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 @media (max-width: 860px) {
-  .nav-toggle { display: flex; }
+  .nav-mit { display: none; }
+  .nav-toggle { display: flex; margin-left: auto; }
 
   .nav-links {
     display: none;
