@@ -708,6 +708,7 @@ footer {
   height: 32px;
   width: auto;
   display: block;
+  filter: brightness(0);
 }
 
 .footer-logo-julialab {
