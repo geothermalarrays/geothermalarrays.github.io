@@ -7,7 +7,7 @@
   --text-3: #777777;
   --accent: #c94b1a;
   --accent-dark: #9e3912;
-  --nav-bg: #0f1923;
+  --nav-bg: rgb(15, 25, 35);
   --nav-text: #f0ede8;
   --max-w: 860px;
   --font: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;

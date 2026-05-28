@@ -4,8 +4,302 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GeothermalArrays — MIT Julia Lab</title>
-  <meta name="description" content="Scaling geothermal energy through networked well arrays. A research group at the MIT Julia Lab." />
+  <meta name="description" content="Scaling geothermal energy through networks of standard wells. A research group at the MIT Julia Lab." />
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root { --content-w: 960px; }
+
+    /* ── Hero ── */
+    .hero2 {
+      background: var(--nav-bg);
+      padding: 0 24px;
+    }
+
+    .hero2-inner {
+      max-width: var(--content-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 48px;
+      align-items: center;
+      min-height: 72vh;
+      padding: 72px 0 64px;
+    }
+
+    .hero2-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #6a8a9a;
+      margin-bottom: 28px;
+    }
+
+    .hero2-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: #6a8a9a;
+    }
+
+    .hero2 h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      line-height: 1.1;
+      color: #f0ede8;
+      letter-spacing: -0.03em;
+      margin-bottom: 28px;
+    }
+
+    .hero2 h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero2-desc {
+      font-size: 16px;
+      color: #8a9aa8;
+      line-height: 1.75;
+      max-width: 520px;
+      margin-bottom: 40px;
+    }
+
+    .hero2-quote {
+      border-left: 3px solid var(--accent);
+      padding: 12px 20px;
+      margin: 0 0 36px 0;
+      background: rgba(255,255,255,0.04);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .hero2-quote p {
+      font-size: 15px;
+      color: #a0b4c4;
+      line-height: 1.75;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+
+    .hero2-quote cite {
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 600;
+      color: #6a8a9a;
+    }
+
+    .hero2-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn2 {
+      display: inline-block;
+      padding: 10px 22px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .btn2-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn2-primary:hover { background: var(--accent-dark); }
+
+    .btn2-ghost {
+      border: 1px solid #2e3f4e;
+      color: #8a9aa8;
+    }
+
+    .btn2-ghost:hover { border-color: #6a8a9a; color: #f0ede8; }
+
+    /* ── Hero logo ── */
+    .well-array-vis {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero2-logo {
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      border-radius: 16px;
+      opacity: 0.92;
+    }
+
+    /* ── Stats strip ── */
+    .stats-strip {
+      background: #0b141d;
+      border-top: 1px solid #1a2a38;
+      border-bottom: 1px solid #1a2a38;
+      padding: 0 24px;
+    }
+
+    .stats-strip-inner {
+      max-width: var(--content-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      divide: 1px solid #1a2a38;
+    }
+
+    .stat2 {
+      padding: 32px 24px;
+      border-right: 1px solid #1a2a38;
+    }
+
+    .stat2:last-child { border-right: none; }
+
+    .stat2-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat2-label {
+      font-size: 12px;
+      color: #4a6070;
+      line-height: 1.5;
+    }
+
+    /* ── Content ── */
+    .content2 {
+      max-width: var(--content-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section2 {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 48px;
+      padding: 64px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section2:last-child { border-bottom: none; }
+
+    .section2-label {
+      padding-top: 4px;
+    }
+
+    .section2-num {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .section2-name {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      line-height: 1.5;
+    }
+
+    .section2-body h2 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-1);
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .section2-body p {
+      font-size: 15px;
+      color: var(--text-2);
+      line-height: 1.75;
+      margin-bottom: 16px;
+      max-width: 640px;
+    }
+
+    .section2-body p:last-child { margin-bottom: 0; }
+
+    .section2-body p a {
+      color: var(--text-2);
+      text-decoration: underline;
+    }
+
+    .section2-body p a:hover { color: var(--text-1); }
+
+    .section2-body strong { color: var(--text-1); }
+
+    /* ── Stat cards inside section ── */
+    .stat-grid2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .stat-card2 {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+    }
+
+    .stat-card2-value {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-card2-label {
+      font-size: 12px;
+      color: var(--text-3);
+      line-height: 1.4;
+    }
+
+    /* ── Scroll reveal ── */
+    .section2 {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .section2.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 760px) {
+      .hero2-inner {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 56px 0 48px;
+      }
+      .well-array-vis { display: none; }
+      .stats-strip-inner { grid-template-columns: repeat(2, 1fr); }
+      .stat2 { border-bottom: 1px solid #1a2a38; }
+      .stat2:nth-child(2n) { border-right: none; }
+      .section2 { grid-template-columns: 1fr; gap: 16px; }
+      .section2-label { display: flex; gap: 12px; align-items: baseline; }
+      .stat-grid2 { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
@@ -17,116 +311,141 @@
       <li><a href="publications.html">Research</a></li>
       <li><a href="rfcs.html">GeoRFCs</a></li>
       <li><a href="https://github.com/geothermalarrays" target="_blank" rel="noopener">GitHub</a></li>
-      <li><a href="people.html">People</a></li>
+      <li><a href="people.html">Team</a></li>
     </ul>
   </div>
 </nav>
 
-<div class="hero">
-<p class="hero-label">Geothermal Energy Research</p>
-  <h1>Scaling geothermal energy<br>through networked well arrays</h1>
-  <p class="hero-desc">
-    We are a research group at the MIT Julia Lab working to make geothermal
-    energy firm, cheap, and universally deployable — by treating wells as
-    components in large, standardized arrays rather than one-off megaprojects.
-  </p>
-  <div class="hero-links">
-    <a class="btn btn-primary" href="publications.html">Read our work</a>
-    <a class="btn btn-outline" href="rfcs.html">GeoRFCs</a>
-    <a class="btn btn-outline" href="people.html">Our team</a>
+<!-- Hero -->
+<section class="hero2">
+  <div class="hero2-inner">
+    <div>
+      <div class="hero2-label">Massachusetts Institute of Technology</div>
+      <h1>Scaling <em>geothermal</em> energy through networked well arrays</h1>
+      <blockquote class="hero2-quote">
+        <p>Time to scale the harvesting of geothermal heat for conversion to grid electricity. And not just because geothermal is clean. No, we choose geothermal because it is firm, inexhaustible, safe, and competitively harvestable almost anywhere (cheap). How best to scale geothermal? We urge the development of... geothermal arrays.</p>
+        <cite>— Bob Metcalfe</cite>
+      </blockquote>
+      <div class="hero2-links">
+        <a class="btn2 btn2-primary" href="publications.html">Read our work</a>
+        <a class="btn2 btn2-ghost" href="rfcs.html">GeoRFCs</a>
+        <a class="btn2 btn2-ghost" href="people.html">Our team</a>
+      </div>
+    </div>
+
+    <!-- Logo -->
+    <div class="well-array-vis">
+      <img src="images/logo-dark.svg" alt="GeothermalArrays — geological cross-section logo" class="hero2-logo" />
+    </div>
   </div>
-</div>
+</section>
 
-<hr class="section-divider" />
-
-<div class="content-section">
-  <p class="section-label">The case for geothermal</p>
-  <h2>Firm, inexhaustible, and available almost everywhere</h2>
-  <p>
-    Wind and solar are abundant but intermittent. Geothermal energy is different:
-    it draws on the continuous heat of the Earth, delivering capacity factors
-    above 90% — far exceeding the 15–45% typical of wind and solar — without
-    fuel, combustion, or weather dependence.
-  </p>
-  <p>
-    Geothermal energy is also safe, produces no emissions during operation, and
-    the subsurface heat resource is practically inexhaustible on human timescales.
-    The remaining challenge is cost and scale.
-  </p>
-
-  <div class="stat-grid">
-    <div class="stat-card">
-      <div class="stat-value">&gt;90%</div>
-      <div class="stat-label">Capacity factor for geothermal vs. 15–45% for wind/solar</div>
+<!-- Stats strip -->
+<div class="stats-strip">
+  <div class="stats-strip-inner">
+    <div class="stat2">
+      <div class="stat2-value">&gt;90%</div>
+      <div class="stat2-label">Capacity factor vs. 15–45% for wind/solar</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-value">&lt;1¢</div>
-      <div class="stat-label">Target LCOE per kWh — below solar, wind, coal, and nuclear</div>
+    <div class="stat2">
+      <div class="stat2-value">&lt;1¢/kWh</div>
+      <div class="stat2-label">Target LCOE</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-value">~100%</div>
-      <div class="stat-label">System-level capacity factor achievable through array redundancy</div>
+    <div class="stat2">
+      <div class="stat2-value">~100%</div>
+      <div class="stat2-label">System capacity factor via array redundancy</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-value">10,000</div>
-      <div class="stat-label">Arrays of ~100 wells each needed to solve energy at global scale</div>
+    <div class="stat2">
+      <div class="stat2-value">~10,000</div>
+      <div class="stat2-label">Geothermal arrays needed at global scale</div>
     </div>
   </div>
 </div>
 
-<div class="content-section">
-  <p class="section-label">Our approach</p>
-  <h2>Geothermal arrays: wells as components, not megaprojects</h2>
-  <p>
-    The Internet scaled by networking small, standard, competitively sourced
-    computers — not by building ever-larger mainframes. We apply the same logic
-    to geothermal energy. Instead of pursuing ever-deeper, ever-more-expensive
-    single wells, we propose <strong>geothermal arrays</strong>: networks of
-    smaller, standardized, closed-loop deep borehole heat exchangers (DBHEs)
-    linked by a micro-grid and operated autonomously.
-  </p>
-  <p>
-    Each well in the array is a self-contained unit with its own circulation
-    pump, heat exchanger, organic Rankine cycle (ORC) converter, and micro-grid
-    connection. Standard mechanical and electrical interfaces allow competing
-    suppliers to manufacture subsystems and robot vans to install and maintain
-    them autonomously — driving down cost through learning curves, competition,
-    and shared infrastructure.
-  </p>
-  <p>
-    Array-level redundancy pushes the system capacity factor toward 100%.
-    Shared surface power conversion and cooling infrastructure eliminates the
-    per-well cost penalty of bespoke power plants. Our modeling — combining
-    GPU-accelerated 3D simulation with large language model-assisted design
-    exploration — suggests a pathway to levelized costs of electricity (LCOE)
-    below 1¢/kWh.
-  </p>
+<!-- Content sections -->
+<div class="content2">
+
+  <div class="section2">
+    <div class="section2-label">
+      <div class="section2-num">§ 01</div>
+      <div class="section2-name">The case for geothermal</div>
+    </div>
+    <div class="section2-body">
+      <h2>Firm, inexhaustible, and available almost everywhere</h2>
+      <p>
+        Wind and solar are abundant but intermittent. Geothermal energy is different:
+        it draws on the continuous heat of the Earth, delivering capacity factors
+        above 90% — far exceeding the 15–45% typical of wind and solar — without
+        fuel, combustion, or weather dependence.
+      </p>
+      <p>
+        Geothermal energy is also safe, produces no emissions during operation, and
+        the subsurface heat resource is practically inexhaustible on human timescales.
+        The remaining challenge is cost and scale.
+      </p>
+    </div>
+  </div>
+
+  <div class="section2">
+    <div class="section2-label">
+      <div class="section2-num">§ 02</div>
+      <div class="section2-name">Our approach</div>
+    </div>
+    <div class="section2-body">
+      <h2>Wells as components, not megaprojects</h2>
+      <p>
+        The Internet scaled by networking small, standard, competitively sourced
+        computers — not by building ever-larger mainframes. We apply the same logic
+        to geothermal energy. Instead of pursuing ever-deeper, ever-more-expensive
+        single wells, we propose <strong>geothermal arrays</strong>: networks of
+        smaller, standardized, closed-loop deep borehole heat exchangers (DBHEs)
+        linked by a micro-grid and operated autonomously.
+      </p>
+      <p>
+        Each well in the array is a self-contained unit with its own circulation
+        pump, heat exchanger, organic Rankine cycle (ORC) converter, and micro-grid
+        connection. Standard mechanical and electrical interfaces allow competing
+        suppliers to manufacture subsystems and robot vans to install and maintain
+        them autonomously — driving down cost through learning curves, competition,
+        and shared infrastructure.
+      </p>
+      <p>
+        We target a levelized cost of electricity (LCOE) below 1¢/kWh.
+      </p>
+    </div>
+  </div>
+
+  <div class="section2">
+    <div class="section2-label">
+      <div class="section2-num">§ 03</div>
+      <div class="section2-name">Computational methods</div>
+    </div>
+    <div class="section2-body">
+      <h2>High-performance simulation at the Julia Lab</h2>
+      <p>
+        Our group sits at the intersection of geothermal engineering and
+        high-performance scientific computing. We develop GPU-accelerated,
+        full three-dimensional models of deep borehole heat exchanger arrays,
+        enabling the simulation of multi-well interactions at resolutions
+        previously impractical.
+      </p>
+      <p>
+        These tools — built in the <a href="https://julialang.org/" target="_blank" rel="noopener">Julia programming language</a> and
+        deployed on modern GPU hardware — allow us to explore array configurations,
+        thermal drawdown dynamics, drilling strategies, and economic scenarios at
+        the speed required for engineering iteration and policy analysis.
+      </p>
+      <p>
+        Moreover, we study the use of generative and agentic AI to assist geothermal
+        engineering design, using LLM-generated hypotheses together with
+        simulation-based validation.
+      </p>
+    </div>
+  </div>
+
 </div>
 
-<div class="content-section">
-  <p class="section-label">Computational methods</p>
-  <h2>High-performance simulation at the Julia Lab</h2>
-  <p>
-    Our group sits at the intersection of geothermal engineering and
-    high-performance scientific computing. We develop GPU-accelerated,
-    full three-dimensional models of deep borehole heat exchanger arrays,
-    enabling the simulation of multi-well interactions at resolutions
-    previously impractical.
-  </p>
-  <p>
-    These tools — built in the <a href="https://julialang.org/" target="_blank" rel="noopener">Julia programming language</a> and
-    deployed on modern GPU hardware — allow us to explore array configurations,
-    thermal drawdown dynamics, drilling strategies, and economic scenarios at
-    the speed required for engineering iteration and policy analysis.
-  </p>
-  <p>
-    We also study the use of generative and agentic AI to assist geothermal
-    engineering design, using LLM-generated hypotheses together with
-    simulation-based validation.
-  </p>
-</div>
-
-<hr class="section-divider" />
+<hr class="section-divider" style="margin-top: 0;" />
 
 <footer>
   <div class="footer-inner">
@@ -153,7 +472,7 @@
         <li><a href="publications.html">Research</a></li>
         <li><a href="rfcs.html">GeoRFCs</a></li>
         <li><a href="https://github.com/geothermalarrays" target="_blank" rel="noopener">GitHub</a></li>
-        <li><a href="people.html">People</a></li>
+        <li><a href="people.html">Team</a></li>
       </ul>
     </div>
 
@@ -186,5 +505,17 @@
   </div>
 </footer>
 
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.section2').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
