@@ -285,7 +285,7 @@
     }
 
     /* ── Responsive ── */
-    @media (max-width: 760px) {
+    @media (max-width: 860px) {
       .hero2-inner {
         grid-template-columns: 1fr;
         min-height: auto;
@@ -313,6 +313,9 @@
       <li><a href="https://github.com/geothermalarrays" target="_blank" rel="noopener">GitHub</a></li>
       <li><a href="people.html">Team</a></li>
     </ul>
+    <button class="nav-toggle" aria-label="Toggle menu" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
