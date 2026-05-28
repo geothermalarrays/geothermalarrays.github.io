@@ -54,10 +54,12 @@ nav {
 }
 
 .nav-logo {
-  width: 30px;
-  height: 30px;
+  height: 15px;
+  width: auto;
   flex-shrink: 0;
-  margin-right: 10px;
+  margin-right: 12px;
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
 }
 
 .nav-brand span {
