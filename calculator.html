@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex, nofollow" /> <!-- preliminary: shared by link only, not listed -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LCOE Calculator (work in progress) — GeothermalArrays</title>
+  <link rel="icon" type="image/svg+xml" href="images/logo-dark.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="dbhe/dbhe.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.getElementById('method'), { delimiters: [{ left: '\\[', right: '\\]', display: true }, { left: '\\(', right: '\\)', display: false }] })"></script>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html">Geothermal<span>Arrays</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="georfcs.html">GeoRFCs</a></li>
+      <li><a href="calculator.html" class="active">Calculator</a></li>
+      <li><a href="https://github.com/geothermalarrays" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="people.html">Team</a></li>
+    </ul>
+    <a class="nav-mit" href="https://web.mit.edu/" target="_blank" rel="noopener"><img class="nav-mit-logo" src="images/mit_logo_std_rgb_white.png" alt="MIT" /></a>
+    <button class="nav-toggle" aria-label="Toggle menu" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-inner calc-wide">
+    <div class="page-hero-label">Tools</div>
+    <h1>DBHE Array LCOE Calculator <span class="pub-featured wip">Work in progress</span> <span class="wip-note">Current values may not be accurate.</span></h1>
+    <p class="page-hero-sub">Explore the levelized cost of electricity (LCOE) for arrays of deep borehole heat exchangers,
+      with electrical energy generation (E<sub>t</sub>) either held constant or estimated using a surrogate of the
+      physics-based model implemented in <a href="https://github.com/cwittens/GeothermalWells.jl" target="_blank" rel="noopener">GeothermalWells.jl</a>.
+      Results update automatically as you adjust the inputs.</p>
+    <nav class="jump" aria-label="On this page"><a href="#results_sec">Results</a><span aria-hidden="true">·</span><a href="#method">Method</a><span aria-hidden="true">·</span><a href="#references">References</a></nav>
+  </div>
+</div>
+
+<div class="calc">
+  <aside class="calc-inputs" id="inputs">
+    <div class="inputs-head">
+      <span>Inputs</span>
+      <span class="inputs-tools">
+        <button type="button" class="link" id="fold_open">Expand all</button>
+        <button type="button" class="link" id="fold_close">Collapse all</button>
+      </span>
+    </div>
+
+    <section class="top">
+      <h2 class="top-label">Levelized cost of electricity (LCOE)</h2>
+
+      <details class="fold" open>
+        <summary><span>Expenditures</span><span class="fold-val" id="sum_exp"></span></summary>
+        <div class="fold-body">
+          <div class="input-group">
+            <label for="lcoe_I"><span class="sym">I<sub>t</sub></span> investment expenditures ($)</label>
+            <input type="number" id="lcoe_I" min="0" step="100000">
+            <small>Total, spread evenly over t = 1…α−1 (t = 1 if α = 1). <span id="lcoe_I_src"></span>
+              <button type="button" class="link" id="reset_I">Literature default</button></small>
+          </div>
+          <div class="input-group">
+            <label for="lcoe_M"><span class="sym">M<sub>t</sub></span> operations and maintenance ($/year)</label>
+            <input type="number" id="lcoe_M" min="0" step="10000">
+            <small>Each year t = α…n. Default 1.5 % of the power-plant cost per year, no wellfield maintenance <a href="#ref-beckers">[16]</a>; low compared with
+              typical geothermal plants.</small>
+          </div>
+          <div class="input-group">
+            <label for="lcoe_F"><span class="sym">F<sub>t</sub></span> fuel expenditures ($/year)</label>
+            <input type="number" id="lcoe_F" min="0" step="1000">
+            <small>Each year t = α…n. Default 0: geothermal plants use no fuel.</small>
+          </div>
+        </div>
+      </details>
+
+      <details class="fold">
+        <summary><span>Expenditures by year</span><span class="fold-val" id="sum_years_edit"></span></summary>
+        <div class="fold-body">
+          <small class="hint">Overrides the values above for single years ($). ↓ copies the first year (t = 1 for I<sub>t</sub>, t = α for M<sub>t</sub> and F<sub>t</sub>) to every later year.
+            Changing I<sub>t</sub>, M<sub>t</sub>, F<sub>t</sub> or α above resets the column.</small>
+          <div class="cost-scroll">
+            <table class="cost-table">
+              <thead>
+                <tr><th>t</th>
+                  <th>I<sub>t</sub> <button type="button" class="fill" data-fill="I" title="Copy the first year to every later year">↓</button></th>
+                  <th>M<sub>t</sub> <button type="button" class="fill" data-fill="M" title="Copy the first year to every later year">↓</button></th>
+                  <th>F<sub>t</sub> <button type="button" class="fill" data-fill="F" title="Copy the first year to every later year">↓</button></th></tr>
+              </thead>
+              <tbody id="cost_rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </details>
+
+      <details class="fold" open>
+        <summary><span>Energy generated, E<sub>t</sub></span><span class="fold-val" id="sum_energy_src"></span></summary>
+        <div class="fold-body">
+          <div class="seg" role="radiogroup" aria-label="Source of E_t">
+            <label><input type="radio" name="e_mode" value="model" checked> Physical model</label>
+            <label><input type="radio" name="e_mode" value="fixed"> Fixed value</label>
+          </div>
+          <div id="e_fixed_box" class="input-group" hidden>
+            <label for="lcoe_E" class="sub">E<sub>t</sub> each year t = α…n (MWh)</label>
+            <input type="number" id="lcoe_E" min="0" step="10">
+          </div>
+          <small id="e_model_note" class="hint">Electrical energy from the physical model below.</small>
+        </div>
+      </details>
+
+      <details class="fold" open>
+        <summary><span>Time and discounting</span><span class="fold-val" id="sum_time"></span></summary>
+        <div class="fold-body">
+          <div class="input-row three">
+            <div class="input-group">
+              <label for="lcoe_r"><span class="sym">r</span> discount rate (%)</label>
+              <input type="number" id="lcoe_r" min="0" step="0.5">
+            </div>
+            <div class="input-group">
+              <label for="lcoe_n"><span class="sym">n</span> lifetime (years)</label>
+              <input type="number" id="lcoe_n" min="1" step="1">
+            </div>
+            <div class="input-group">
+              <label for="lcoe_alpha"><span class="sym">α</span> first year of production</label>
+              <input type="number" id="lcoe_alpha" min="1" step="1">
+            </div>
+          </div>
+          <small class="hint">r: 7 % <a href="#ref-white">[2]</a>, the central rate of IEA/NEA <a href="#ref-iea">[8]</a>.
+            α: 2, one year of drilling and construction (assumption). n: <span id="n_hint">α − 1 + 20</span>.
+            The time interval t is one year.</small>
+        </div>
+      </details>
+
+      <details class="fold">
+        <summary><span>Result unit</span><span class="fold-val" id="sum_unit"></span></summary>
+        <div class="fold-body">
+          <div class="input-group">
+            <label for="lcoe_unit">Show the LCOE in</label>
+            <select id="lcoe_unit">
+              <option value="cents_per_kWh" selected>¢/kWh</option>
+              <option value="usd_per_MWh">$/MWh</option>
+            </select>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <fieldset class="top" id="phys">
+      <h2 class="top-label">Physical model</h2>
+      <p class="hint off-note">Used only when E<sub>t</sub> comes from the physical model.</p>
+
+      <details class="fold" open>
+        <summary><span>Model and case</span><span class="fold-val" id="sum_case"></span></summary>
+        <div class="fold-body">
+          <div class="input-group">
+            <label for="model_source">Model</label>
+            <select id="model_source">
+              <option value="library">Case library (precomputed with the surrogate)</option>
+              <option value="surrogate" disabled>Surrogate model, run in the page (not available yet)</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="case_pick">Case</label>
+            <select id="case_pick"></select>
+            <small id="case_hint">Picking a case sets the model inputs below to its values. Changing an input uses the library case closest to the inputs.</small>
+          </div>
+        </div>
+      </details>
+
+      <details class="fold" id="fold_matched" open>
+        <summary><span>Matched library case</span><span class="fold-val" id="sum_matched"></span></summary>
+        <div class="fold-body match" id="match_card" hidden>
+          <div class="match-head">
+            <div>
+              <div class="match-title" id="match_title"></div>
+              <div class="muted" id="match_sub"></div>
+            </div>
+            <span class="pub-type chip" id="match_chip"></span>
+          </div>
+          <div class="warn-line" id="match_warn" role="alert" hidden></div>
+          <table class="compare">
+            <thead>
+              <tr><th>Input</th><th>Requested</th><th>Used</th><th title="Share of the library range">Off by</th></tr>
+            </thead>
+            <tbody id="match_rows"></tbody>
+          </table>
+          <div class="alternatives">
+            <span class="muted">Other close cases:</span>
+            <span id="match_alts"></span>
+          </div>
+        </div>
+      </details>
+
+      <details class="fold">
+        <summary><span>All model arguments</span><span class="fold-val" id="sum_args"></span></summary>
+        <div class="fold-body model-inputs" id="model_inputs_card" hidden>
+          <small class="hint">The arguments of GeothermalWells.jl
+            (<a href="https://github.com/cwittens/GeothermalWells.jl/blob/main/examples/well_array_basic.jl" target="_blank" rel="noopener">well_array_basic.jl</a>)
+            with the values of the case used. The library varies the arguments marked <i>varied</i>; the others are the same in every case.</small>
+          <table>
+            <thead><tr><th>Argument</th><th>Value</th><th>Library</th></tr></thead>
+            <tbody id="model_input_rows"></tbody>
+          </table>
+        </div>
+      </details>
+
+      <details class="fold" open>
+        <summary><span>Power conversion</span><span class="fold-val" id="sum_eta"></span></summary>
+        <div class="fold-body">
+          <div class="input-group">
+            <label class="split" for="eta"><span><span class="sym">η</span> ORC efficiency (%)</span><span class="range" id="eta_hint"></span></label>
+            <input type="number" id="eta" min="0" max="100" step="0.1">
+            <small class="warn-inline" id="eta_check" role="alert" hidden></small>
+            <small>E<sub>t</sub> = Σ over the months of production year t − α + 1 of (η Σ<sub>wells</sub> ṁ c<sub>p</sub> (T<sub>out</sub> − T<sub>in</sub>) − P<sub>pump</sub>) × 730 h.
+              Default: the fit η = 0.0935 T − 2.3266 (%) of binary plants at 103–166 °C <a href="#ref-mit">[4]</a>, applied to the heat of
+              each month at the mixed outlet temperature T (°C) of the wells; the field shows the heat-weighted mean. A value typed
+              here is used for every month.
+              <button type="button" class="link" id="reset_eta">Literature default</button></small>
+          </div>
+          <label class="check"><input type="checkbox" id="pump_on" checked> Subtract the circulation pumping power</label>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="pump_eff"><span class="sym">η<sub>pump</sub></span> pump efficiency (%)</label>
+              <input type="number" id="pump_eff" min="1" max="100" step="1">
+            </div>
+            <div class="input-group">
+              <label for="pump_eps"><span class="sym">ε</span> pipe roughness (mm)</label>
+              <input type="number" id="pump_eps" min="0" step="0.005">
+            </div>
+          </div>
+          <small class="hint">P<sub>pump</sub> = Σ<sub>wells</sub> ṁ Δp / (ρ η<sub>pump</sub>), with Δp the friction loss of the
+            inner pipe and the annulus over the 3000 m (Darcy–Weisbach, friction factor of Haaland <a href="#ref-haaland">[13]</a>),
+            ρ and the viscosity of water at the mean of T<sub>in</sub> and T<sub>out</sub> <a href="#ref-tanaka">[14]</a>.
+            Defaults: ε = 0.045 mm, commercial steel <a href="#ref-moody">[15]</a>; η<sub>pump</sub> = 75 % (assumption).
+            It neglects the thermosiphon, which lowers P<sub>pump</sub>, and surface piping and fittings, which raise it, so it is an
+            estimate, not a bound.</small>
+        </div>
+      </details>
+
+      <details class="fold" open>
+        <summary><span>Well layout</span><span class="fold-val" id="sum_layout"></span></summary>
+        <div class="fold-body">
+          <div class="input-group">
+            <label for="family">Layout</label>
+            <select id="family"></select>
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label for="n_wells">Number of wells (–)</label>
+              <input type="number" id="n_wells" value="9" min="1" max="25" step="1">
+            </div>
+            <div class="input-group">
+              <label for="spacing">Well spacing (m)</label>
+              <input type="number" id="spacing" value="80" min="25" max="300" step="5">
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="fold" open>
+        <summary><span>Rock and operation</span><span class="fold-val" id="sum_rock"></span></summary>
+        <div class="fold-body">
+          <div id="param_inputs"></div>
+        </div>
+      </details>
+
+      <details class="fold" id="fold_matching">
+        <summary><span>Case matching</span><span class="fold-val" id="sum_match"></span></summary>
+        <div class="fold-body">
+          <div class="input-group">
+            <label for="match_weight">When matching the closest case, prioritise</label>
+            <select id="match_weight">
+              <option value="3">Layout shape and spacing</option>
+              <option value="1">Layout and rock equally</option>
+              <option value="0.3">Rock and operation</option>
+            </select>
+          </div>
+        </div>
+      </details>
+    </fieldset>
+  </aside>
+
+  <div class="calc-results">
+    <div class="status" id="status" role="status">Loading the case library…</div>
+
+    <details class="sec" id="results_sec" open>
+      <summary class="sec-head">Results</summary>
+      <div class="sec-body">
+    <section class="panel formula-panel" id="kpis" hidden>
+      <div class="section-label">Levelized cost of electricity</div>
+      <div class="formula-row">
+        <div class="lcoe-value"><span id="kpi_lcoe">--</span><small id="kpi_unit">¢/kWh</small></div>
+        <div class="formula-eq">
+          <span>LCOE =</span>
+          <span class="frac">
+            <span class="num">Σ<sub>t=1</sub><sup>n</sup> (I<sub>t</sub> + M<sub>t</sub> + F<sub>t</sub>) / (1+r)<sup>t</sup></span>
+            <span class="den">Σ<sub>t=α</sub><sup>n</sup> E<sub>t</sub> / (1+r)<sup>t</sup></span>
+          </span>
+          <span>=</span>
+          <span class="frac">
+            <span class="num" id="kpi_num">--</span>
+            <span class="den" id="kpi_den">--</span>
+          </span>
+        </div>
+      </div>
+      <p class="muted" id="kpi_note"></p>
+      <p class="muted" id="kpi_cf"></p>
+      <p class="muted" id="kpi_sens" hidden></p>
+      <div class="warn-line" id="lcoe_undef" role="status" hidden></div>
+      <p class="muted" id="kpi_bench"></p>
+      <p class="muted" id="kpi_bound" hidden></p>
+      <div class="warn-line" id="eta_warn" role="alert" hidden></div>
+    </section>
+
+    <section class="panel" id="table_card" hidden>
+      <h3>Variables of the LCOE by year</h3>
+      <p class="muted">I<sub>t</sub>, M<sub>t</sub> and F<sub>t</sub> as set in the input panel, and E<sub>t</sub> from the
+        model (or the fixed value). E<sub>t</sub> = 0 before production starts (t &lt; α).</p>
+      <div class="grid-2 lcoe-vars">
+        <figure><figcaption><span class="sym">I<sub>t</sub></span> investment expenditures ($)</figcaption>
+          <div class="chart-box small"><canvas id="chart_I" aria-label="I_t per year"></canvas></div></figure>
+        <figure><figcaption><span class="sym">M<sub>t</sub></span> operations and maintenance ($)</figcaption>
+          <div class="chart-box small"><canvas id="chart_M" aria-label="M_t per year"></canvas></div></figure>
+        <figure><figcaption><span class="sym">F<sub>t</sub></span> fuel expenditures ($)</figcaption>
+          <div class="chart-box small"><canvas id="chart_F" aria-label="F_t per year"></canvas></div></figure>
+        <figure><figcaption><span class="sym">E<sub>t</sub></span> electrical energy generated (MWh) <span class="fig-note" id="E_note"></span></figcaption>
+          <div class="chart-box small"><canvas id="chart_energy" aria-label="E_t per year"></canvas></div></figure>
+      </div>
+    </section>
+
+    <div class="outputs-head" id="outputs_head" hidden>
+      <div class="section-label">Outputs of the physical model</div>
+      <p class="muted" id="outputs_src"></p>
+      <p class="muted" id="outputs_off" hidden>E<sub>t</sub> is a fixed value, so the physical model is not used.</p>
+    </div>
+
+    <div class="grid-2 model-out" id="charts" hidden>
+      <section class="panel">
+        <h3>Electric power (kW<sub>e</sub>)</h3>
+        <p class="muted">Gross ORC output η Σ ṁ c<sub>p</sub> (T<sub>out</sub> − T<sub>in</sub>), the circulation pumps, and the net
+          output whose yearly sum is E<sub>t</sub>. Hover for the heat extracted.</p>
+        <div class="chart-box"><canvas id="chart_power" aria-label="Electric power over 20 years"></canvas></div>
+      </section>
+      <section class="panel">
+        <h3>Outlet temperature T<sub>out</sub> (°C)</h3>
+        <p class="muted">Thin lines: each well; thick line: mean of the wells; dashed: inlet.</p>
+        <div class="chart-box"><canvas id="chart_tout" aria-label="Outlet temperature of each well over 20 years"></canvas></div>
+      </section>
+      <section class="panel span-2">
+        <h3>Rock temperature</h3>
+        <p class="muted" id="field_sub"></p>
+        <div class="field-controls">
+          <label>Show <select id="field_mode">
+            <option value="T" selected>Temperature (°C)</option>
+            <option value="dT">Change from undisturbed, ΔT (K)</option>
+          </select></label>
+          <label>Year <select id="field_year"></select></label>
+          <button type="button" class="play" id="field_play" aria-pressed="false">▶ Play</button>
+          <label>Plan depth <select id="field_depth"></select></label>
+        </div>
+        <div class="field-views">
+          <figure>
+            <div class="field-plot"><canvas id="field_plan" width="300" height="300"></canvas><div class="ticks" id="field_plan_ticks"></div></div>
+            <figcaption id="field_plan_cap">Plan view</figcaption>
+          </figure>
+          <figure>
+            <div class="field-plot"><canvas id="field_section" width="300" height="300"></canvas><div class="ticks" id="field_section_ticks"></div></div>
+            <figcaption id="field_section_cap">Vertical section</figcaption>
+          </figure>
+        </div>
+        <div class="colorbar">
+          <span id="field_min">--</span><div class="ramp"></div><span id="field_max">--</span>
+        </div>
+        <div class="muted readout" id="field_readout">Hover a view for the local rock temperature, or a well for its outlet temperature.</div>
+      </section>
+    </div>
+
+      </div>
+    </details>
+
+    <details class="sec notes method" id="method">
+      <summary class="sec-head">Method</summary>
+
+      <h3>Levelized cost of electricity</h3>
+      <p>With yearly intervals \(t = 1 \dots n\) <a href="#ref-wiki">[1]</a>,</p>
+      \[ \mathrm{LCOE} = \frac{\displaystyle\sum_{t=1}^{n} (I_t + M_t + F_t)\,(1+r)^{-t}}{\displaystyle\sum_{t=\alpha}^{n} E_t\,(1+r)^{-t}} \]
+      <p>where \(I_t\), \(M_t\) and \(F_t\) ($) are the investment, maintenance and fuel expenditures of year \(t\), \(E_t\) (MWh)
+        the net electricity, \(r\) (per year) the discount rate, \(n\) (years) the lifetime and \(\alpha\) the first year of production.
+        The LCOE is in $/MWh (shown in ¢/kWh: 1 $/MWh = 0.1 ¢/kWh). Defaults <a href="#ref-white">[2]</a>, in $:</p>
+      \[ I = N\,h\,c_\mathrm{drill} + c_\mathrm{plant}\,P_\mathrm{gross,max}, \qquad M_t = m\,c_\mathrm{plant}\,P_\mathrm{gross,max}, \qquad F_t = 0 \]
+      <ul class="eqs">
+        <li>\(h = 3000\) m, \(c_\mathrm{drill} = \$1{,}000/\mathrm{m}\) (optimistic: Lukawski et al. give ≈ $2,600/m for a 3 km well
+          <a href="#ref-lukawski">[10]</a> <a href="#ref-banks">[11]</a>), \(c_\mathrm{plant} = \$3{,}000/\mathrm{kW_e}\); \(I\) is spread over \(t &lt; \alpha\).</li>
+        <li>\(N\): number of wells; \(P_\mathrm{gross,max}\) (kW<sub>e</sub>): the largest monthly gross power, the plant capacity
+          (\(E/8760\) h with a fixed \(E_t\)).</li>
+        <li>\(m = 1.5\,\%\) per year of the plant cost, no wellfield maintenance <a href="#ref-beckers">[16]</a>; \(r = 7\,\%\); \(\alpha = 2\).</li>
+        <li>\(n = \alpha - 1 + 20\) with the model, \(\alpha - 1 + 30\) with a fixed \(E_t\) <a href="#ref-atb">[9]</a>.</li>
+      </ul>
+
+      <h3>From well temperatures to \(E_t\)</h3>
+      <p>For an array of \(N\) wells, the surrogate of <a href="#ref-gw">GeothermalWells.jl</a> <a href="#ref-chen">[17]</a>
+        predicts the outlet temperature \(T_i(\tau)\) (°C) of each well \(i\), month by month over 20 years, at a common flow rate
+        \(\dot m\) (kg/s) and inlet temperature \(T_\mathrm{in}\) (°C). For now these temperatures come from a library of 100 arrays of
+        1–25 wells precomputed with the surrogate; running it directly in the calculator is not yet available. From them:</p>
+      <ol class="steps">
+        <li><b>Heat</b> of each well, \(Q_i\) in W, with \(c_p = 4187.5\) J/(kg·K):
+          \[ Q_i = \dot m\, c_p \left(T_i - T_\mathrm{in}\right) \]</li>
+        <li><b>Gross power</b> of the plant, \(P_\mathrm{gross}\) in W, fed with the mixed water at \(T_\mathrm{mix} = \tfrac{1}{N}\sum_i T_i\) (°C);
+          \(\eta\) is dimensionless:
+          \[ P_\mathrm{gross} = \eta(T_\mathrm{mix}) \sum_{i=1}^{N} Q_i, \qquad \eta(T) = \max\!\left(0,\ \frac{0.0935\,T - 2.3266}{100}\right) \]
+          the fit of binary plants at 103–166 °C <a href="#ref-mit">[4]</a> (\(T\) in °C), extrapolated below 103 °C.</li>
+        <li><b>Pumping</b>, \(P_\mathrm{pump}\) in W, with \(\Delta p_i\) (Pa) the friction loss of the inner pipe and the annulus
+          (Darcy–Weisbach, Haaland friction factor <a href="#ref-haaland">[13]</a>), \(\rho\) (kg/m³) the water density
+          <a href="#ref-tanaka">[14]</a> and \(\eta_\mathrm{pump} = 0.75\) the pump efficiency:
+          \[ P_\mathrm{pump} = \sum_{i=1}^{N} \frac{\dot m\, \Delta p_i}{\rho\, \eta_\mathrm{pump}} \]
+          Thermosiphon and surface losses are neglected, so it is an estimate, not a bound.</li>
+        <li><b>Net electricity</b> of year \(t\), \(E_t\) in MWh, summed over the 12 months of production year \(t - \alpha + 1\),
+          with \(\Delta\tau = 730\) h (W·h divided by 10<sup>6</sup>):
+          \[ E_t = 10^{-6} \sum_{\tau} \left(P_\mathrm{gross} - P_\mathrm{pump}\right) \Delta\tau, \qquad E_t = 0 \ \text{for}\ t &lt; \alpha \]
+          If the pumps use more than the plant makes, the LCOE is undefined.</li>
+      </ol>
+      <p><b>Capacity factor</b> (an output, dimensionless; no downtime assumed), with \(E^\mathrm{gross}_t\) (MWh) the gross electricity
+        of year \(t\) and \(P_\mathrm{gross,max}\) in kW<sub>e</sub> (1 MWh = 10<sup>3</sup> kWh):</p>
+      \[ \mathrm{CF} = \frac{1}{n-\alpha+1} \sum_{t=\alpha}^{n} \frac{10^{3}\, E^\mathrm{gross}_t}{8760\ \mathrm{h} \cdot P_\mathrm{gross,max}} \]
+      <p><b>Perfect-plant limit.</b> The most electricity any plant could make from the water, its thermodynamic limit
+        <a href="#ref-dipippo">[5]</a>, \(P_\mathrm{max}\) in W, with a heat sink at \(T_0 = 15\) °C and \(T_c = \max(T_\mathrm{in}, T_0)\);
+        all temperatures in kelvin:</p>
+      \[ P_\mathrm{max} = N \dot m\, c_p \left[(T_\mathrm{mix} - T_c) - T_0 \ln\frac{T_\mathrm{mix}}{T_c}\right] \ \text{if}\ T_\mathrm{mix} &gt; T_c, \quad 0 \ \text{otherwise} \]
+      <p>It is used twice: the line under the LCOE gives the LCOE with \(P_\mathrm{gross} = P_\mathrm{max}\) and the same costs
+        and pumping, a what-if on the conversion alone; and a typed \(\eta\) (or the fit) is flagged if \(P_\mathrm{gross}\) exceeds
+        \(P_\mathrm{max}\) in any month.</p>
+
+      <h3>What to expect</h3>
+      <p>Conventional geothermal costs 6.4–10.6 ¢/kWh <a href="#ref-lazard">[7]</a>; the best closed-loop designs of White et al.
+        reach about 9 ¢/kWh only with 5 km wells, 20 km laterals and 70 °C/km <a href="#ref-white">[2]</a>. The library's 3 km wells
+        return water at 11–48 °C, where \(\eta\) is about 2 % (the coolest binary plants in operation reach about 1 %
+        <a href="#ref-zarrouk">[6]</a>): only cases 72 (about 1,650 ¢/kWh) and 24 make more electricity than their pumps use. These
+        wells suit heat better than electricity <a href="#ref-mcclure">[3]</a>.</p>
+    </details>
+    <details class="sec notes refs" id="references">
+      <summary class="sec-head">References</summary>
+      <ol>
+        <li id="ref-wiki"><a href="https://en.wikipedia.org/wiki/Levelized_cost_of_electricity" target="_blank" rel="noopener">Levelized cost of electricity</a>. Wikipedia (accessed October 2026). Definition of the LCOE and its variables.</li>
+        <li id="ref-white">White, M., Martinez, M., Vasyliv, Y., Beckers, K., et al. (2023). <a href="https://pangea.stanford.edu/ERE/pdf/IGAstandard/SGW/2023/White2.pdf" target="_blank" rel="noopener">Closed-loop Geothermal Working Group Study – Understanding Thermal Performance and Economic Forecasts via Numerical Simulation</a>. Proceedings, 48th Workshop on Geothermal Reservoir Engineering, Stanford University, SGP-TR-224. r = 7 %, O&amp;M = 1.5 % of the plant cost per year (method in [16]), $3,000/kW<sub>e</sub>, $1,000/m drilling, minimum LCOE values.</li>
+        <li id="ref-mcclure">McClure, M. (2023). <a href="https://arxiv.org/abs/2303.12689" target="_blank" rel="noopener">Technical barriers for deep closed-loop geothermal</a>. arXiv:2303.12689.</li>
+        <li id="ref-mit">Tester, J. W., et al. (2006). <i>The Future of Geothermal Energy</i>. MIT. ORC efficiency fit as given in Mishra, G. S., Glassley, W., Yeh, S. (2010), <a href="https://itspubs.ucdavis.edu/download_pdf.php?id=1425" target="_blank" rel="noopener">Analysis of Lifecycle Water Requirements of Energy &amp; Transportation Fuels: Electricity from Geothermal Resources – Model Description</a>, UC Davis ITS.</li>
+        <li id="ref-dipippo">DiPippo, R. (2007). Ideal thermal efficiency for geothermal binary plants. <i>Geothermics</i> 36(3), 276–285. Second-law (exergy) limit of binary plants; the limit used here is the exergy decrease of the water at constant c<sub>p</sub>.</li>
+        <li id="ref-zarrouk">Zarrouk, S. J., Moon, H. (2014). Efficiency of geothermal power plants: A worldwide review. <i>Geothermics</i> 51, 142–153. <a href="https://doi.org/10.1016/j.geothermics.2013.11.001" target="_blank" rel="noopener">doi:10.1016/j.geothermics.2013.11.001</a>.</li>
+        <li id="ref-lazard">Lazard (2024). <a href="https://www.lazard.com/media/xemfey0k/lazards-lcoeplus-june-2024-_vf.pdf" target="_blank" rel="noopener">Levelized Cost of Energy+ (Version 17.0)</a>. Unsubsidized LCOE of geothermal, 64–106 $/MWh.</li>
+        <li id="ref-iea">IEA, NEA (2020). <a href="https://www.iea.org/reports/projected-costs-of-generating-electricity-2020" target="_blank" rel="noopener">Projected Costs of Generating Electricity – 2020 Edition</a>. LCOE at 3, 7 and 10 % discount rates.</li>
+        <li id="ref-atb">NREL. <a href="https://atb-archive.nrel.gov/electricity/2020/index.php?s=om&amp;t=gt" target="_blank" rel="noopener">Annual Technology Baseline 2020: Geothermal</a>. Plant lifetime of 30 years.</li>
+        <li id="ref-lukawski">Lukawski, M. Z., et al. (2014). Cost analysis of oil, gas, and geothermal well drilling. <i>Journal of Petroleum Science and Engineering</i> 118. <a href="https://doi.org/10.1016/j.petrol.2014.03.012" target="_blank" rel="noopener">doi:10.1016/j.petrol.2014.03.012</a>.</li>
+        <li id="ref-banks">Banks, D. (2023). <a href="https://eprints.gla.ac.uk/298274/" target="_blank" rel="noopener">Geothermal heat: status quo or deeper and down?</a> <i>Geoscientist</i>, 18 April 2023. Drilling cost correlations and levelized drilling cost of DBHE heat.</li>
+        <li id="ref-gw"><a href="https://github.com/cwittens/GeothermalWells.jl" target="_blank" rel="noopener">GeothermalWells.jl</a>, the physical model, and <a href="https://github.com/cwittens/2026_Geothermal_Arrays_Thesis" target="_blank" rel="noopener">2026_Geothermal_Arrays_Thesis</a>.</li>
+        <li id="ref-haaland">Haaland, S. E. (1983). Simple and explicit formulas for the friction factor in turbulent pipe flow. <i>Journal of Fluids Engineering</i> 105(1), 89–90.</li>
+        <li id="ref-tanaka">Tanaka, M., Girard, G., Davis, R., Peuto, A., Bignell, N. (2001). Recommended table for the density of water between 0 °C and 40 °C based on recent experimental reports. <i>Metrologia</i> 38, 301–309. Viscosity from the Vogel equation, μ = 2.414 × 10<sup>−5</sup> · 10<sup>247.8/(T − 140)</sup> Pa·s, T in K.</li>
+        <li id="ref-moody">Moody, L. F. (1944). Friction factors for pipe flow. <i>Transactions of the ASME</i> 66, 671–684. Roughness of commercial steel, 0.045 mm.</li>
+        <li id="ref-beckers">Beckers, K., Vasyliv, Y., Bran-Anleu, G. A., Martinez, M., Augustine, C., White, M. (2023). <a href="https://pangea.stanford.edu/ERE/db/GeoConf/papers/SGW/2023/Beckers.pdf" target="_blank" rel="noopener">Tabulated Database of Closed-Loop Geothermal Systems Performance for Cloud-Based Technical and Economic Modeling of Heat Production and Electricity Generation</a>. Proceedings, 48th Workshop on Geothermal Reservoir Engineering, Stanford University, SGP-TR-224. Sec. 4.2: O&amp;M 1.5 % of the surface-plant cost, no wellfield maintenance.</li>
+        <!-- Temporary: replace with the final authors, title and link once the paper is published. -->
+        <li id="ref-chen">Chen, J., et al. (in preparation). Paper on the neural-network surrogate of GeothermalWells.jl, to be submitted to
+          the 52nd Workshop on Geothermal Reservoir Engineering, Stanford University, 2027.
+          In this calculator, the surrogate predicts the outlet temperature of each well; E<sub>t</sub> then follows from these
+          temperatures through the power-conversion and pumping relations given in the Method section.</li>
+      </ol>
+    </details>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">Geothermal<span>Arrays</span></div>
+      <p class="footer-tagline">Scaling geothermal energy through networked well arrays.</p>
+      <div class="footer-logos">
+        <a href="https://julia.mit.edu/" target="_blank" rel="noopener">
+          <img class="footer-logo-julialab" src="images/julia_lab_logo.svg" alt="MIT Julia Lab" />
+        </a>
+        <a href="https://www.csail.mit.edu/" target="_blank" rel="noopener">
+          <img class="footer-logo-csail" src="images/csail_logo.png" alt="MIT CSAIL" />
+        </a>
+        <a href="https://web.mit.edu/" target="_blank" rel="noopener">
+          <img class="footer-logo-mit" src="images/mit_logo_std_rgb_white.png" alt="MIT" />
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Pages</div>
+      <ul class="footer-col-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="georfcs.html">GeoRFCs</a></li>
+        <li><a href="https://github.com/geothermalarrays" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="people.html">Team</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <ul class="footer-col-links">
+        <li><a href="mailto:geothermalarrays@mit.edu">geothermalarrays@mit.edu</a></li>
+        <li><a href="https://julia.mit.edu/" target="_blank" rel="noopener">MIT Julia Lab</a></li>
+        <li>77 Massachusetts Ave.</li>
+        <li>Cambridge, MA 02139</li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Resources</div>
+      <ul class="footer-col-links">
+        <li><a href="https://github.com/cwittens/GeothermalWells.jl" target="_blank" rel="noopener">GeothermalWells.jl</a></li>
+        <li><a href="https://julialang.org/" target="_blank" rel="noopener">Julia Language</a></li>
+        <li><a href="https://pangea.stanford.edu/ERE/db/GeoConf/" target="_blank" rel="noopener">Stanford Geothermal</a></li>
+        <li><a href="https://erlweb.mit.edu/" target="_blank" rel="noopener">MIT ERL</a></li>
+        <li><a href="https://accessibility.mit.edu/" target="_blank" rel="noopener">Accessibility</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>&copy; 2026 Massachusetts Institute of Technology</span>
+    <span>GeothermalArrays Group &middot; MIT Julia Lab, CSAIL</span>
+    <span class="footer-ai-disclaimer">Some content on this site was drafted or refined with AI and may contain errors.</span>
+  </div>
+</footer>
+
+<div class="tooltip" id="tooltip" hidden></div>
+<script type="module" src="dbhe/app.js"></script>
+</body>
+</html>
